@@ -3,6 +3,7 @@ package enigma.engine;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -14,9 +15,10 @@ public class TextureLookup {
 	public static Texture kButtonPressed;
 	public static Texture lambdaTexture;
 	
-	public static BitmapFont bmFont;
+	public static BitmapFont whiteBMFont;
+	public static BitmapFont yellowBMFont;
 	public static ShapeRenderer shapeRenderer;
-
+	public static String fontName = "prada.fnt";
 	
 	public static void initTextures(){
 		//check if textures have already been initialized 
@@ -34,7 +36,10 @@ public class TextureLookup {
 		allTextures.add(lambdaTexture);
 		
 		//initialize the bit map font
-		bmFont = new BitmapFont(Gdx.files.internal("prada.fnt"));
+		whiteBMFont = new BitmapFont(Gdx.files.internal(fontName));
+		
+		yellowBMFont = new BitmapFont(Gdx.files.internal(fontName));
+		yellowBMFont.setColor(Color.YELLOW);
 		
 		//initialize the shape renderer
 		shapeRenderer = new ShapeRenderer();
@@ -45,8 +50,9 @@ public class TextureLookup {
 		for(Texture tex : allTextures){
 			tex.dispose();
 		}
-		
-		if(bmFont != null) bmFont.dispose();
+	
+		if(whiteBMFont != null) whiteBMFont.dispose();
+		if(yellowBMFont != null) whiteBMFont.dispose();
 		if(shapeRenderer != null) shapeRenderer.dispose();
 	}
 }

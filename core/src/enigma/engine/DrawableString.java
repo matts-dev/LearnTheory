@@ -2,8 +2,6 @@ package enigma.engine;
 
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -32,8 +30,8 @@ public class DrawableString {
 	private float y;
 
 	public DrawableString(String text) {
-		bmFont = new BitmapFont(Gdx.files.internal("prada.fnt"));
-		// bmFont = TextureLookup.bmFont; //this causes bug with highlighting.
+		// bmFont = new BitmapFont(Gdx.files.internal("prada.fnt"));
+		bmFont = TextureLookup.whiteBMFont; 
 
 		gl = new GlyphLayout();
 		gl.setText(bmFont, text);
@@ -85,7 +83,7 @@ public class DrawableString {
 
 	public void dispose() {
 
-		bmFont.dispose();
+		// bmFont.dispose();
 	}
 
 	public void appendToRight(DrawableString toAppend) {
@@ -123,11 +121,13 @@ public class DrawableString {
 	}
 
 	public void highlight() {
-		bmFont.setColor(Color.YELLOW);
+		// bmFont.setColor(Color.YELLOW);
+		bmFont = TextureLookup.yellowBMFont;
 	}
 
 	public void unhighlight() {
-		bmFont.setColor(Color.WHITE);
+		// bmFont.setColor(Color.WHITE);
+		bmFont = TextureLookup.whiteBMFont;
 	}
 
 	public void startAnimation() {
