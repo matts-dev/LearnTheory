@@ -1,4 +1,4 @@
-package enigma.engine.test;
+package enigma.engine.fsm;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,24 +8,31 @@ import com.badlogic.gdx.math.Vector3;
 
 import enigma.engine.CourseModule;
 import enigma.engine.Tools;
+import enigma.engine.fsm.components.FiniteStateMachine;
 
-public class GenericInteractModule extends CourseModule {
+public class FSMTestModule extends CourseModule {
 	/** a vector to hold converted touch coordinates into game world coordinates */
 	private Vector3 convVect = new Vector3(0, 0, 0);
 	private boolean devMode = true;
+	private FiniteStateMachine fsm = new FiniteStateMachine();
 
 	/**
 	 * Constructor
 	 * 
 	 * @param camera the Orthographic camera. This is used to convert points
 	 */
-	public GenericInteractModule(OrthographicCamera camera) {
+	public FSMTestModule(OrthographicCamera camera) {
 		super(camera);
+
+		fsm.addNode("", 30, 30);
 	}
 
 	@Override
 	public void logic() {
 		super.logic();
+		if (fsm != null) {
+			fsm.logic();
+		}
 	}
 
 	@Override
@@ -58,6 +65,9 @@ public class GenericInteractModule extends CourseModule {
 	public void draw(SpriteBatch batch) {
 		// draw any sub modules (super call)
 		super.draw(batch);
+		if (fsm != null) {
+			fsm.draw(batch);
+		}
 
 	}
 
@@ -70,21 +80,21 @@ public class GenericInteractModule extends CourseModule {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		Tools.convertMousePointsIntoGameCoordinates(camera, convVect);
-
+		fsm.touchDown(convVect, pointer, button);
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		Tools.convertMousePointsIntoGameCoordinates(camera, convVect);
-
+		fsm.touchUp(convVect, pointer, button);
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		Tools.convertMousePointsIntoGameCoordinates(camera, convVect);
-
+		fsm.touchDragged(convVect, pointer);
 		return false;
 	}
 

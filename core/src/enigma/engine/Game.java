@@ -36,6 +36,7 @@ public class Game extends ApplicationAdapter implements InputProcessor {
 		// set up game modules
 		setUpGameModules();
 
+		Keybinds.generateKeybinds();
 	}
 
 	public void createCamera() {

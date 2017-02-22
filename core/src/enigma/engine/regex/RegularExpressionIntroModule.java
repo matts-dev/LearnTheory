@@ -14,6 +14,14 @@ import enigma.engine.TextureLookup;
 import enigma.engine.Tools;
 import enigma.engine.regex.components.RegularExpression;
 
+/**
+ * TODO: this module was for the pilot study. The loading of instructions needs to be optimized.
+ * This module will probably be discarded in favor of a more modern version. 
+ * 
+ * @author Matt Stone
+ * @version 1.0
+ *
+ */
 public class RegularExpressionIntroModule extends CourseModule {
 	/** a regular expression to work with */
 	private RegularExpression regex;
