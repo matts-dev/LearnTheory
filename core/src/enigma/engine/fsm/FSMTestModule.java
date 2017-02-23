@@ -24,7 +24,8 @@ public class FSMTestModule extends CourseModule {
 	public FSMTestModule(OrthographicCamera camera) {
 		super(camera);
 
-		fsm.addNode("", 30, 30);
+		//fsm.addNode("", 30, 30);
+		fsm.generateTestMachine();
 	}
 
 	@Override

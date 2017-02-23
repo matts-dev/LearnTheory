@@ -7,5 +7,6 @@ import com.badlogic.gdx.math.Vector3;
 public abstract class ComponentFSM {
 	public abstract void draw(ShapeRenderer render, SpriteBatch batch);
 	public abstract void translate(float x, float y);
+	public abstract void setPosition(float x, float y);
 	public abstract boolean isTouched(Vector3 touchCoordinates);
 }
