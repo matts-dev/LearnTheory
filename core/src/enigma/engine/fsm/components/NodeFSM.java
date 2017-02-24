@@ -1,5 +1,8 @@
 package enigma.engine.fsm.components;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -7,9 +10,13 @@ import com.badlogic.gdx.math.Vector3;
 
 public class NodeFSM extends ComponentFSM {
 	private Circle node;
+	private HashMap<Integer, EdgeFSM> edgesOut = new HashMap<Integer, EdgeFSM>();
+	private HashMap<Integer, EdgeFSM> inwardEdges = new HashMap<Integer, EdgeFSM>();
+
 
 	public NodeFSM(String text, float x, float y, float radius) {
 		node = new Circle(x, y, radius);
+		
 	}
 
 	/* (non-Javadoc) Render must be started. */
@@ -46,4 +53,36 @@ public class NodeFSM extends ComponentFSM {
 	public float getRadius() {
 		return node.radius;
 	}
+
+	public void addOutEdge(EdgeFSM edgeOutward) {
+		edgesOut.put(edgeOutward.hashCode(), edgeOutward);
+	}
+
+	public void addInEdge(EdgeFSM inwardEdge) {
+		inwardEdges.put(inwardEdges.hashCode(), inwardEdge);
+	}
+	
+	public void removeEdge(EdgeFSM removeEdge){
+		//search and remove outward edge
+		edgesOut.remove(removeEdge.hashCode());
+		
+		//scan inward edges
+		inwardEdges.remove(removeEdge.hashCode());
+	}
+	
+	public void play(){
+
+	}
+
+	public ArrayList<EdgeFSM> getAllEdges() {
+		ArrayList<EdgeFSM> ret = new ArrayList<EdgeFSM>(10);
+		for(EdgeFSM edge : inwardEdges.values()){
+			ret.add(edge);
+		}
+		for(EdgeFSM edge : edgesOut.values()){
+			ret.add(edge);
+		}
+		return ret;
+	}
+	
 }

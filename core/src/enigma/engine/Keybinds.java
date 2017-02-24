@@ -11,6 +11,7 @@ public class Keybinds {
 	private static ArrayList<Integer> leftKeys = new ArrayList<Integer>();
 	private static ArrayList<Integer> rightKeys = new ArrayList<Integer>();
 	private static int mod1Key;
+	private static int removeKey;
 
 
 	public static void generateKeybinds() {
@@ -19,6 +20,7 @@ public class Keybinds {
 		generateLeftKeys();
 		generateRightKeys();
 		mod1Key = Input.Keys.CONTROL_LEFT;
+		removeKey = Input.Keys.R;
 	}
 
 	private static void generateRightKeys() {
@@ -85,5 +87,9 @@ public class Keybinds {
 	
 	public static boolean pollModKey1(){
 		return Gdx.input.isKeyPressed(mod1Key);
+	}
+	
+	public static boolean pollRemoveKeyOnce(){
+		return Gdx.input.isKeyJustPressed(removeKey);
 	}
 }

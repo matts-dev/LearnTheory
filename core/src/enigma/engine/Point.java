@@ -1,4 +1,4 @@
-package enigma.enigine.ubiquitous;
+package enigma.engine;
 
 public class Point {
 	public float x;

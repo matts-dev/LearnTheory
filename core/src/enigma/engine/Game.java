@@ -57,7 +57,9 @@ public class Game extends ApplicationAdapter implements InputProcessor {
 		logic();
 
 		// CLEAR SCREEN
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		//Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(TextureLookup.backgroundColor.r, TextureLookup.backgroundColor.g,
+				TextureLookup.backgroundColor.b, TextureLookup.backgroundColor.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// DRAWING STARTS AFTER
@@ -91,7 +93,8 @@ public class Game extends ApplicationAdapter implements InputProcessor {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 				Gdx.app.exit();
 			}
-			if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
+			if (Gdx.input.isKeyJustPressed(Input.Keys.Y)) {
+				TextureLookup.swapColorScheme();
 			}
 		}
 	}
