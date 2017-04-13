@@ -47,4 +47,8 @@ public class AcknowledgeButton {
 		return button.getWidth() * btnScale;
 	}
 
+	public void setPositionHeightInLine(float x, float y) {
+		setPosition(x, y);
+	}
+
 }

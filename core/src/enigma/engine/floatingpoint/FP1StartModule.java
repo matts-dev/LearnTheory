@@ -87,9 +87,9 @@ public class FP1StartModule extends FPComponentModule {
 	}
 	
 	private void updateButtonPositionToInstruction(){
+		// centerInstX + 1/2width + 1/2ButtonSize
 		float x = instruction.getX() + instruction.width() / 2 + ackBtn.getScaleWidth() / 2;
-		float y = instruction.getY() - instruction.height() /2 + ackBtn.getScaleHeight() / 2;
-		ackBtn.setPosition(x, y);
+		ackBtn.setPosition(x, instruction.getY());
 	}
 
 	private void setUpUnderscores() {
