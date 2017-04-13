@@ -129,6 +129,18 @@ public class DrawableString {
 		// bmFont.setColor(Color.WHITE);
 		bmFont = TextureLookup.whiteBMFont;
 	}
+	
+	public void makeRed(){
+		bmFont = TextureLookup.redBMFont;
+	}
+	
+	public void makeBlue(){
+		bmFont = TextureLookup.blueBMFont;
+	}
+	
+	public void makeNormal(){
+		this.unhighlight();
+	}
 
 	public void startAnimation() {
 		if (!currentlyAnimating) {

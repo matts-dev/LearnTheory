@@ -95,7 +95,7 @@ public class Game extends ApplicationAdapter implements InputProcessor {
 			}
 			if (Gdx.input.isKeyJustPressed(Input.Keys.Y)) {
 				TextureLookup.swapColorScheme();
-			}
+			}							
 		}
 	}
 
