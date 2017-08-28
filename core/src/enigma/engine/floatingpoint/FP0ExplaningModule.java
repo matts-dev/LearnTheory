@@ -12,17 +12,18 @@ public class FP0ExplaningModule extends FPComponentModule {
 	/** a vector to hold converted touch coordinates into game world coordinates */
 	private Vector3 convVect = new Vector3(0, 0, 0);
 	private boolean devMode = true;
+	private float fractionComplete = 1.0f;
+	
 
 
 	/**
 	 * Constructor
 	 * 
 	 * @param camera the Orthographic camera. This is used to convert points
+	 * @param animatingInstruction 
 	 */
-	public FP0ExplaningModule(OrthographicCamera camera) {
-		super(camera);
-		
-
+	public FP0ExplaningModule(OrthographicCamera camera, AcknlowedgedInstruction animatingInstruction) {
+		super(camera, animatingInstruction);
 		
 	}
 
@@ -55,6 +56,11 @@ public class FP0ExplaningModule extends FPComponentModule {
 			}
 		}
 
+	}
+	
+	@Override
+	public float getFractionDone() {
+		return fractionComplete ;
 	}
 
 	@Override
@@ -90,4 +96,7 @@ public class FP0ExplaningModule extends FPComponentModule {
 		return false;
 	}
 
+	protected void setUpInstructions() {
+		instructionList.add("This is the introductionary module - teach how to use");
+	}
 }

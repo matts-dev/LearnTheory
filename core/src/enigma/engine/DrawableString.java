@@ -39,8 +39,6 @@ public class DrawableString {
 	}
 
 	public void draw(SpriteBatch batch) {
-		// draw raw
-
 		if (!currentlyAnimating) {
 			bmFont.draw(batch, getText(), x - gl.width / 2, y + gl.height / 2);
 		} else {
@@ -161,7 +159,7 @@ public class DrawableString {
 
 	public void animateLogic() {
 		// test if the class is in an animating state
-		if (currentlyAnimating) {
+		if (currentlyAnimating && animCharacterIterator < buildingString.length()) {
 			long currTime = System.currentTimeMillis();
 
 			// test if there has been enough time to delay the animation
@@ -185,7 +183,6 @@ public class DrawableString {
 			if (animCharacterIterator == text.length() - 1) {
 				currentlyAnimating = false;
 			}
-
 		}
 	}
 

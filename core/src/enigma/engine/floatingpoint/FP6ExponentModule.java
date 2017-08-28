@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import enigma.engine.Tools;
 
-public class FP7MantissaModule extends FPComponentModule {
+public class FP6ExponentModule extends FPComponentModule {
 	/** a vector to hold converted touch coordinates into game world coordinates */
 	private Vector3 convVect = new Vector3(0, 0, 0);
 	private boolean devMode = true;
@@ -19,7 +19,7 @@ public class FP7MantissaModule extends FPComponentModule {
 	 * @param camera the Orthographic camera. This is used to convert points
 	 * @param animatingInstruction 
 	 */
-	public FP7MantissaModule(OrthographicCamera camera, AcknlowedgedInstruction animatingInstruction) {
+	public FP6ExponentModule(OrthographicCamera camera, AcknlowedgedInstruction animatingInstruction) {
 		super(camera, animatingInstruction);
 	}
 
@@ -88,7 +88,7 @@ public class FP7MantissaModule extends FPComponentModule {
 	}
 
 	protected void setUpInstructions() {
-		instructionList.add("this is the mantissa module");
+		instructionList.add("this is the exponent module");
 	}
 
 }

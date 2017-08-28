@@ -17,9 +17,10 @@ public class FP4ScientificNotationModule extends FPComponentModule {
 	 * Constructor
 	 * 
 	 * @param camera the Orthographic camera. This is used to convert points
+	 * @param animatingInstruction 
 	 */
-	public FP4ScientificNotationModule(OrthographicCamera camera) {
-		super(camera);
+	public FP4ScientificNotationModule(OrthographicCamera camera, AcknlowedgedInstruction animatingInstruction) {
+		super(camera, animatingInstruction);
 	}
 
 	@Override
@@ -84,6 +85,10 @@ public class FP4ScientificNotationModule extends FPComponentModule {
 		Tools.convertMousePointsIntoGameCoordinates(camera, convVect);
 
 		return false;
+	}
+
+	protected void setUpInstructions() {
+		instructionList.add("This is the scientific notation module");
 	}
 
 }

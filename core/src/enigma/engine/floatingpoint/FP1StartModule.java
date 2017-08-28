@@ -1,7 +1,5 @@
 package enigma.engine.floatingpoint;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,78 +16,67 @@ public class FP1StartModule extends FPComponentModule {
 	private DrawableString signUnderScore;
 	private DrawableString exponentUnderScore;
 	private DrawableString mantissaUnderScore;
-	private DrawableString instruction;
-	private ArrayList<String> instructions = new ArrayList<String>();
-	private AcknowledgeButton ackBtn;
+//	private ArrayList<String> instructionList = new ArrayList<String>();
+
+	private int signInstructionIndex = -1;
+	private int exponentInstructionIndex = -1;
+	private int mantissaInstructionIndex = -1;
+	private int currentInstructionPointer = 0;
+	private boolean drawSignBit = false;
+	private boolean drawExponentBits = false;
+	private boolean drawMantissaBits = false;
 	
-	private enum State {
-		SIGN1, EXPONENT1, MANTISSA1
-	}
-	private State currentState = State.SIGN1; 
-	int signInstructionIndex = 0;
-	int exponentInstructionIndex = -1;
-	int mantissaInstructionIndex = -1;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param camera
 	 *            the Orthographic camera. This is used to convert points
+	 * @param animatingInstruction 
 	 */
-	public FP1StartModule(OrthographicCamera camera) {
-		super(camera);
+	public FP1StartModule(OrthographicCamera camera, AcknlowedgedInstruction animatingInstruction) {
+		super(camera, animatingInstruction);
 
-		setUpAckBtn();
 		setUpUnderscores();
 		setUpInstructions();
 		
+		updateInstructionSpatialPosition();
+	}
+
+	protected void setUpInstructions() {
 		
-		updateInstructionPosition();
-		updateButtonPositionToInstruction();
-
-	}
-
-	private void setUpAckBtn() {
-		ackBtn = new AcknowledgeButton('k');
-		ackBtn.setPosition(0, 0);
-	}
-
-	private void setUpInstructions() {
+		instructionList.add("The 16 bits of the number are divided into 3 sections");
+		
 		//explain the first bit
-		instructions.add("This is the first bit position.");
-		instructions.add("A 0 here means the number is positive.");
-		instructions.add("A 1 here means the number is negative!");
-		instructions.add("Thus, It represents the sign of the number.");
-		exponentInstructionIndex = instructions.size();
+		signInstructionIndex = instructionList.size();
+		instructionList.add("This is the first bit position.");
+//		instructions.add("A 0 here means the number is positive.");
+//		instructions.add("A 1 here means the number is negative!");
+		instructionList.add("It represents the sign of the number.");
+		exponentInstructionIndex = instructionList.size();
 		
 		//explain the middle 5 bits
-		instructions.add("These 5 bits represent the exponent.");
-		instructions.add("The number 15 represents an exponent of 0!.");
-		mantissaInstructionIndex = instructions.size();
+		instructionList.add("These 5 bits represent the exponent.");
+//		instructions.add("The number 15 represents an exponent of 0!");
+		mantissaInstructionIndex = instructionList.size();
 
 		//explain
-		instructions.add("These 10 bits represent the number.");
-		instructions.add("It is a binary number in scientific notation form.");
+		instructionList.add("These 10 bits represent the number.");
+		instructionList.add("It is a binary number in scientific notation form.");
 		
 		//do optional instructions?
 		//explain why 15 represents 0 (because of negative exponents)
-		
-		//set up the drawable instruction
-		instruction = new DrawableString(instructions.get(signInstructionIndex));
-		instruction.startAnimation();
-		updateInstructionPosition();
+
+		//set up the displaying instruction
+		updateInstructionSpatialPosition();
+//		instruction.setText(instructions.get(currentInstructionPointer));
+//		instruction.startAnimation();
 	}
 	
-	private void updateInstructionPosition(){
+	private void updateInstructionSpatialPosition(){
 		float instX = (Gdx.graphics.getWidth() / 2);
 		float instY = Gdx.graphics.getHeight() * 0.90f;
 		instruction.setXY(instX, instY);		
-	}
-	
-	private void updateButtonPositionToInstruction(){
-		// centerInstX + 1/2width + 1/2ButtonSize
-		float x = instruction.getX() + instruction.width() / 2 + ackBtn.getScaleWidth() / 2;
-		ackBtn.setPosition(x, instruction.getY());
 	}
 
 	private void setUpUnderscores() {
@@ -115,10 +102,6 @@ public class FP1StartModule extends FPComponentModule {
 		mantissaUnderScore.setXY(mantissaX, height);
 		mantissaUnderScore.makeBlue();
 
-		signUnderScore.startAnimation();
-		exponentUnderScore.startAnimation();
-		mantissaUnderScore.startAnimation();
-
 	}
 
 	@Override
@@ -129,9 +112,7 @@ public class FP1StartModule extends FPComponentModule {
 			
 			// do logic if last component is complete
 			signUnderScore.animateLogic();
-			
-			ackBtn.logic();
-
+	
 			if (!signUnderScore.isAnimating()) {
 				exponentUnderScore.animateLogic();
 			}
@@ -150,13 +131,12 @@ public class FP1StartModule extends FPComponentModule {
 		}
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
-
-			System.out.println("Pressed k in FP1 start module");
-			signUnderScore.startAnimation();
-			exponentUnderScore.startAnimation();
-			mantissaUnderScore.startAnimation();
-			
-			
+			currentInstructionPointer++;
+			handleStateChange(currentInstructionPointer);
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+			currentInstructionPointer--;
+			handleStateChange(currentInstructionPointer);
 		}
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
@@ -174,6 +154,32 @@ public class FP1StartModule extends FPComponentModule {
 
 	}
 
+	private void handleStateChange(int newInstructionPointer) {
+		
+		if(newInstructionPointer == signInstructionIndex)
+		{
+			drawSignBit = true;
+			signUnderScore.startAnimation();
+		}
+		else if (newInstructionPointer == exponentInstructionIndex)
+		{
+			drawExponentBits = true;
+			exponentUnderScore.startAnimation();
+		}
+		else if (newInstructionPointer == mantissaInstructionIndex)
+		{
+			drawMantissaBits = true;
+			mantissaUnderScore.startAnimation();
+		}
+		
+		//correct instruction pointer for edge cases (note: zero check should come second in case instructions.size == 0)
+		newInstructionPointer = newInstructionPointer >= instructionList.size() ? instructionList.size() - 1 : newInstructionPointer;
+		newInstructionPointer = newInstructionPointer < 0 ? 0 : newInstructionPointer; 
+		
+		instruction.setText(instructionList.get(newInstructionPointer));
+		instruction.startAnimation();
+	}
+
 	public void draw(SpriteBatch batch, float lastModuleFraction) {
 		// draw any sub modules (super call)
 		super.draw(batch);
@@ -185,12 +191,15 @@ public class FP1StartModule extends FPComponentModule {
 				instruction.draw(batch);
 			}
 			
-			if(ackBtn != null) ackBtn.draw(batch);
-			
-			signUnderScore.draw(batch);
-			exponentUnderScore.draw(batch);
-			mantissaUnderScore.draw(batch);
+			if(drawSignBit) signUnderScore.draw(batch);
+			if(drawExponentBits) exponentUnderScore.draw(batch);
+			if(drawMantissaBits) mantissaUnderScore.draw(batch);
 		}
+	}
+	
+	@Override
+	public float getFractionDone() {
+		return currentInstructionPointer / (float) instructionList.size();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package enigma.engine.floatingpoint;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -11,6 +12,9 @@ public class AcknowledgeButton {
 	private DrawableString letter;
 	private Sprite button;
 	private float btnScale = 1.0f;
+	private long flashDelayMs = 250;
+	private long lastFlashTimeStamp = System.currentTimeMillis();
+	private boolean drawButton = true;
 
 	public AcknowledgeButton(char characterOnButton) {
 		this.charOnBtn = characterOnButton;
@@ -25,16 +29,36 @@ public class AcknowledgeButton {
 
 	}
 
-	public void draw(SpriteBatch batch) {
-		button.draw(batch);
-		letter.draw(batch);
+	public void draw(SpriteBatch batch) 
+	{
+		if(drawButton)
+		{
+			button.draw(batch);
+			letter.draw(batch);
+		}
 	}
 
-	public void logic() {
-
+	public void logic() 
+	{
+		long currentTime = System.currentTimeMillis();
+		if(currentTime > lastFlashTimeStamp + flashDelayMs) 
+		{
+			lastFlashTimeStamp = currentTime;
+			if(button != null)
+			{
+				Texture newTexture = button.getTexture() == TextureLookup.buttonBlack ? TextureLookup.buttonGrey : TextureLookup.buttonBlack;
+				button.setTexture(newTexture);
+			}
+		}
 	}
 
+	public void showButton(boolean value)
+	{
+		drawButton = value;
+	}
+	
 	public void setPosition(float x, float y) {
+		//set position based on center of button
 		button.setPosition(x - button.getWidth() * btnScale / 2, y - button.getHeight() * btnScale / 2);
 		letter.setXY(x, y);
 	}
@@ -45,10 +69,6 @@ public class AcknowledgeButton {
 
 	public float getScaleWidth() {
 		return button.getWidth() * btnScale;
-	}
-
-	public void setPositionHeightInLine(float x, float y) {
-		setPosition(x, y);
 	}
 
 }

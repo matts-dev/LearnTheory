@@ -17,9 +17,10 @@ public class FP5SignModule extends FPComponentModule {
 	 * Constructor
 	 * 
 	 * @param camera the Orthographic camera. This is used to convert points
+	 * @param animatingInstruction 
 	 */
-	public FP5SignModule(OrthographicCamera camera) {
-		super(camera);
+	public FP5SignModule(OrthographicCamera camera, AcknlowedgedInstruction animatingInstruction) {
+		super(camera, animatingInstruction);
 	}
 
 	@Override
@@ -84,6 +85,11 @@ public class FP5SignModule extends FPComponentModule {
 		Tools.convertMousePointsIntoGameCoordinates(camera, convVect);
 
 		return false;
+	}
+
+	@Override
+	protected void setUpInstructions() {
+		instructionList.add("This is the signed module!");
 	}
 
 }
